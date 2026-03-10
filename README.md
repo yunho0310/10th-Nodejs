@@ -13,7 +13,7 @@
 2. 이 레포지토리를 본인 계정으로 Fork 합니다.
 3. Fork한 레포지토리에 미션 결과물을 올립니다.
 4. 본인 레포지토리에서 SKU-UMC 레포지토리의 닉네임 브랜치로 Pull Request(PR)를 보내면 끝!
-- [SKU UMC GitHub 미션 제출 가이드](https://acoustic-daffodil-00e.notion.site/GitHub-26731d49a1348042878ff024dcbde258)
+- [SKU UMC GitHub 미션 제출 가이드](https://flash-oregano-bbe.notion.site/GitHub-3027f28c50e680db96e1ed1fd02c7232)
   
 <br>
 
