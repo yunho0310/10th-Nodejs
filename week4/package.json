@@ -1,0 +1,20 @@
+{
+  "name": "umc-10th",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "UMC 테스트 프로젝트",
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon --exec node src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

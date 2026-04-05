@@ -1,0 +1,11 @@
+# 패키지 디렉터리
+node_modules/
+npm-debug.log*
+
+# 환경 설정
+.env
+.env.local
+
+# 빌드 결과물
+dist/
+build/
