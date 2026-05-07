@@ -30,3 +30,27 @@ export const responseFromList = (
     isLast: isLast,
   };
 };
+
+// 특정 가게의 미션 목록 응답
+export const responseFromStoreMissions = (missions: any[]) => {
+  return missions.map((m) => ({
+    id: m.id,
+    reward: m.reward,
+    deadline: m.deadline
+      ? new Date(m.deadline).toLocaleDateString()
+      : "기한 없음",
+    missionSpec: m.mission_spec,
+  }));
+};
+
+// 내가 진행 중인 미션 목록 응답
+export const responseFromMyMissions = (myMissions: any[]) => {
+  return myMissions.map((mm) => ({
+    memberMissionId: mm.id,
+    missionId: mm.mission.id,
+    storeName: mm.mission.store.name,
+    missionSpec: mm.mission.mission_spec,
+    reward: mm.mission.reward,
+    status: mm.status, // CHALLENGING
+  }));
+};

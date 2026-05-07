@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -45,4 +45,36 @@ model UserFavorCategory {
   @@index([foodCategoryId], map: "f_category_id")
   @@index([userId], map: "user_id")
   @@map("user_favor_category")
+}
+
+model Store {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(100)
+  address String    @db.VarChar(255)
+  missions Mission[] // Store : Mission = 1 : N
+
+  @@map("store")
+}
+
+model Mission {
+  id           Int              @id @default(autoincrement())
+  reward       Int
+  deadline     DateTime         @db.Date
+  missionSpec  String           @map("mission_spec") @db.Text
+  store        Store            @relation(fields: [storeId], references: [id])
+  storeId      Int              @map("store_id")
+  
+  memberMissions MemberMission[] // Mission : MemberMission = 1 : N
+
+  @@map("mission")
+}
+
+model MemberMission {
+  id        Int      @id @default(autoincrement())
+  status    String   @db.VarChar(15) // CHALLENGING, COMPLETE 등
+  memberId  Int      @map("member_id")
+  mission   Mission  @relation(fields: [missionId], references: [id])
+  missionId Int      @map("mission_id")
+
+  @@map("member_mission")
 }
