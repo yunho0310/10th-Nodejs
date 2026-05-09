@@ -1,5 +1,4 @@
-import { PrismaClient } from "../../../generated/prisma/index.js";
-const prisma = new PrismaClient();
+import { prisma } from "../../../db.config.js";
 
 // 중복 확인: 해당 멤버가 해당 미션을 'CHALLENGING' 상태로 가지고 있는지 조회
 export const isMissionChallenging = async (

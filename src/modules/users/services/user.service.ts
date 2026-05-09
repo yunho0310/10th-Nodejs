@@ -1,13 +1,16 @@
 import bcrypt from "bcrypt";
-import { UserSignUpRequest, responseFromUser } from "../dtos/user.dto.js";
+import { UserSignUpRequest, UserSignUpResponse } from "../dtos/user.dto.js";
 import {
   addUser,
   getUser,
   getUserPreferencesByUserId,
   setPreference,
 } from "../repositories/user.repository.js";
+import { DuplicateUserEmailError } from "../../../common/errors/error.js";
 
-export const userSignUp = async (data: any) => {
+export const userSignUp = async (
+  data: UserSignUpRequest,
+): Promise<UserSignUpResponse> => {
   const hn = 10;
   const h_password = await bcrypt.hash(data.password, hn);
 
@@ -15,7 +18,7 @@ export const userSignUp = async (data: any) => {
   const joinUserId = await addUser({ ...data, password: h_password });
 
   if (joinUserId === null) {
-    throw new Error("이미 존재하는 이메일입니다.");
+    throw new DuplicateUserEmailError("이미 존재하는 이메일입니다.", data);
   }
 
   // 2. 선호 카테고리 매핑 (for...of 사용 권장)
@@ -23,9 +26,10 @@ export const userSignUp = async (data: any) => {
     await setPreference(joinUserId, preferenceId);
   }
 
-  // 3. 응답 데이터 조립
-  const user = await getUser(joinUserId);
-  const preferences = await getUserPreferencesByUserId(joinUserId);
+  const userId = joinUserId;
+  const preferences = (await getUserPreferencesByUserId(joinUserId)).map(
+    (p) => p.foodCategory.name,
+  );
 
-  return responseFromUser({ user, preferences });
+  return <UserSignUpResponse>{ userId, preferences };
 };

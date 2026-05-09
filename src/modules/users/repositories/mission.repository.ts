@@ -1,6 +1,4 @@
-import { PrismaClient } from "../../../generated/prisma/index.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../../db.config.js";
 
 /**
  * 새로운 미션 추가

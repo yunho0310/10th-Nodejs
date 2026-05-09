@@ -1,5 +1,4 @@
-import { PrismaClient } from "../../../generated/prisma/index.js";
-const prisma = new PrismaClient();
+import { prisma } from "../../../db.config.js";
 
 // 1. 가게별 리뷰 목록 조회 (커서 기반 페이지네이션)
 export const getStoreReviewList = async (

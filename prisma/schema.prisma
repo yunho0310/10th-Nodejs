@@ -4,115 +4,116 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
 }
+
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique(map: "email") @db.VarChar(255)
-  name          String   @db.VarChar(100)
-  nickname      String   @db.VarChar(100)
-  gender        String   @db.VarChar(15)
-  birth         DateTime @db.Date
-  address       String   @db.VarChar(255)
-  detailAddress String?  @map("detail_address") @db.VarChar(255)
-  phoneNumber   String   @map("phone_number") @db.VarChar(15)
+  id            Int      @id @default(autoincrement())
+  email         String   @unique(map: "email") @db.VarChar(255)
+  name          String   @db.VarChar(100)
+  nickname      String   @db.VarChar(100)
+  gender        String   @db.VarChar(15)
+  birth         DateTime @db.Date
+  address       String   @db.VarChar(255)
+  detailAddress String?  @map("detail_address") @db.VarChar(255)
+  phoneNumber   String   @map("phone_number") @db.VarChar(15)
 
-  userFavorCategories UserFavorCategory[]
+  userFavorCategories UserFavorCategory[]
 
-  reviews Review[]
+  reviews Review[]
 
-  @@map("user")
+  @@map("user")
 }
 
 model FoodCategory {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
 
-  userFavorCategories UserFavorCategory[]
+  userFavorCategories UserFavorCategory[]
 
-  @@map("food_category")
+  @@map("food_category")
 }
 
 model UserFavorCategory {
-  id             Int          @id @default(autoincrement())
-  user           User         @relation(fields: [userId], references: [id])
-  userId         Int          @map("user_id")
-  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
-  foodCategoryId Int          @map("food_category_id")
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int          @map("user_id")
+  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
+  foodCategoryId Int          @map("food_category_id")
 
-  @@index([foodCategoryId], map: "f_category_id")
-  @@index([userId], map: "user_id")
-  @@map("user_favor_category")
+  @@index([foodCategoryId], map: "f_category_id")
+  @@index([userId], map: "user_id")
+  @@map("user_favor_category")
 }
 model Store {
-  id       Int       @id @default(autoincrement())
-  name     String    @db.VarChar(100)
-  address  String    @db.VarChar(255)
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(100)
+  address  String    @db.VarChar(255)
 
-  missions Mission[]
+  missions Mission[]
 
 
-  reviews Review[]
+  reviews Review[]
 
-  @@map("store")
+  @@map("store")
 }
 
 model Mission {
-  id          Int      @id @default(autoincrement())
-  reward      Int
-  deadline    DateTime @db.Date
-  missionSpec String   @map("mission_spec") @db.Text
-  store       Store    @relation(fields: [storeId], references: [id])
-  storeId     Int      @map("store_id")
+  id          Int      @id @default(autoincrement())
+  reward      Int
+  deadline    DateTime @db.Date
+  missionSpec String   @map("mission_spec") @db.Text
+  store       Store    @relation(fields: [storeId], references: [id])
+  storeId     Int      @map("store_id")
 
-  memberMissions MemberMission[] // Mission : MemberMission = 1 : N
+  memberMissions MemberMission[] // Mission : MemberMission = 1 : N
 
-  @@map("mission")
+  @@map("mission")
 }
 
 model MemberMission {
-  id        Int     @id @default(autoincrement())
-  status    String  @db.VarChar(15) // CHALLENGING, COMPLETE 등
-  memberId  Int     @map("member_id")
-  mission   Mission @relation(fields: [missionId], references: [id])
-  missionId Int     @map("mission_id")
+  id        Int     @id @default(autoincrement())
+  status    String  @db.VarChar(15) // CHALLENGING, COMPLETE 등
+  memberId  Int     @map("member_id")
+  mission   Mission @relation(fields: [missionId], references: [id])
+  missionId Int     @map("mission_id")
 
-  @@map("member_mission")
+  @@map("member_mission")
 }
 model Review {
-  id        Int      @id @default(autoincrement())
-  score     Int
-  content   String
-  createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  score     Int
+  content   String
+  createdAt DateTime @default(now())
 
-  storeId Int
-  userId  Int
+  storeId Int
+  userId  Int
 
 
-  store Store @relation(fields: [storeId], references: [id])
-  user  User  @relation(fields: [userId], references: [id])
+  store Store @relation(fields: [storeId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
 
-  @@map("review")
+  @@map("review")
 }
 
 model Restaurant {
-  id             BigInt   @id @default(autoincrement())
-  name           String   @db.VarChar(40)
-  runTime        String?  @map("run_time") @db.VarChar(40)
-  rAddress       String?  @map("r_address") @db.VarChar(40)
-  
-  // 외래키 관계 설정
-  foodCategoryId BigInt?  @map("food_category_id")
-  regionId       BigInt?  @map("region_id")
+  id             BigInt   @id @default(autoincrement())
+  name           String   @db.VarChar(40)
+  runTime        String?  @map("run_time") @db.VarChar(40)
+  rAddress       String?  @map("r_address") @db.VarChar(40)
+  
+  // 외래키 관계 설정
+  foodCategoryId BigInt?  @map("food_category_id")
+  regionId       BigInt?  @map("region_id")
 
-  // 관계 정의 (선택 사항: Relation 설정 시 필요)
-  // foodCategory FoodCategory? @relation(fields: [foodCategoryId], references: [id])
-  // region       Region?       @relation(fields: [regionId], references: [id])
+  // 관계 정의 (선택 사항: Relation 설정 시 필요)
+  // foodCategory FoodCategory? @relation(fields: [foodCategoryId], references: [id])
+  // region       Region?       @relation(fields: [regionId], references: [id])
 
-  @@map("restaurant") // 실제 DB 테이블 이름
+  @@map("restaurant") // 실제 DB 테이블 이름
 }

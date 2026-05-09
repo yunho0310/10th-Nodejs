@@ -1,59 +1,33 @@
-// 사용자가 지정한 경로에서 PrismaClient 임포트
-import { PrismaClient } from "../../../generated/prisma/index.js";
+import { prisma } from "../../../db.config.js";
 
-const prisma = new PrismaClient();
-
-/**
- * 새로운 미션 추가
- */
-export const addMission = async (restaurantId: number, data: any) => {
-  // 스키마 모델 필드명 'storeId'에 맞춰 작성
-  const result = await prisma.mission.create({
+// 1. DB에 리뷰 데이터 삽입
+export const addReview = async (
+  restaurantId: number,
+  data: any,
+): Promise<number> => {
+  // prisma.review.create를 사용하여 데이터 삽입
+  const result = await prisma.review.create({
     data: {
-      storeId: restaurantId,
-      reward: data.reward,
-      deadline: new Date(data.deadline),
-      missionSpec: data.missionSpec,
+      userId: data.userId,
+      storeId: restaurantId, // DB 컬럼명이 storeId인지 restaurantId인지 확인 필요
+      content: data.body, // 기존 body 필드 매핑
+      score: data.score,
     },
   });
 
+  // 생성된 레코드의 id(PK) 반환
   return result.id;
 };
 
-/**
- * 특정 미션 상세 조회
- */
-export const getMission = async (missionId: number) => {
-  return await prisma.mission.findUnique({
+// 2. 삽입된 리뷰 상세 조회
+export const getReview = async (reviewId: number): Promise<any | null> => {
+  // findUnique를 사용하여 단일 레코드 조회
+  const review = await prisma.review.findUnique({
     where: {
-      id: missionId,
-    },
-    include: {
-      store: true, // 연결된 Store(Restaurant) 정보 포함
+      id: reviewId,
     },
   });
-};
 
-/**
- * 특정 가게의 모든 미션 목록 조회
- */
-export const getMissionsByStore = async (storeId: number) => {
-  return await prisma.mission.findMany({
-    where: {
-      storeId: storeId,
-    },
-    orderBy: {
-      deadline: "asc",
-    },
-  });
-};
-
-/**
- * 미션 존재 여부 확인
- */
-export const existMission = async (missionId: number) => {
-  const count = await prisma.mission.count({
-    where: { id: missionId },
-  });
-  return count > 0;
+  // 데이터가 없으면 자동으로 null 반환
+  return review;
 };
