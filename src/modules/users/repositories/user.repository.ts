@@ -1,5 +1,3 @@
-import { ResultSetHeader, RowDataPacket } from "mysql2/promise"; // promise 필수 확인
-import { pool } from "../../../db.config.js"; // 경로를 다시 확인해 보세요!
 import { prisma } from "../../../db.config.js";
 
 // User 데이터 삽입
@@ -16,6 +14,7 @@ export const addUser = async (data: any) => {
     data: {
       email: data.email,
       name: data.name,
+      nickname: data.nicknaem,
       gender: data.gender,
       birth: data.birth,
       address: data.address,

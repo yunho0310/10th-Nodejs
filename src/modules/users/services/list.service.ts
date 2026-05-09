@@ -9,9 +9,9 @@ export const getReviewList = async (
 ) => {
   const limit = 10; // 한 페이지에 보여줄 개수
 
-  const reviews = await getStoreReviewList(storeId, cursorId, limit);
+  const reviews = await listRepo.getStoreReviewList(storeId, cursorId, limit);
 
-  return responseFromList(reviews, limit);
+  return listDto.responseFromList(reviews, limit);
 };
 
 export const getStoreMissionList = async (storeId: number) => {
