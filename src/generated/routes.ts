@@ -99,7 +99,7 @@ const models: TsoaRoute.Models = {
             "reviewId": {"dataType":"double","required":true},
             "userId": {"dataType":"double","required":true},
             "restaurantId": {"dataType":"double","required":true},
-            "content": {"dataType":"string","required":true},
+            "body": {"dataType":"string","required":true},
             "score": {"dataType":"double","required":true},
             "createdAt": {"dataType":"string","required":true},
         },
