@@ -2,20 +2,20 @@ import { setPreference } from "../repositories/user.repository.js";
 
 // 1. 회원가입 요청 데이터의 설계도
 export interface UserSignUpRequest {
-  email: string;
-  password: string; //추가
-  name: string;
-  gender: string;
-  birth: string;
-  address?: string;
-  detailAddress?: string;
-  phoneNumber: string;
-  preferences: number[];
+    email: string;
+    password: string; //추가
+    name: string;
+    gender: string;
+    birth: Date;
+    address?: string;
+    detailAddress?: string;
+    phoneNumber: string;
+    preferences: number[];
 }
 
 export interface UserSignUpResponse {
-  userId: number;
-  preferences: string[];
+    userId: number;
+    preferences: string[];
 }
 
 // export interface UserSignUpResponse {
